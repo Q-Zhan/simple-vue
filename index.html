@@ -14,7 +14,7 @@
   var el = document.querySelector('#name')
   var selfVue = new SimpleVue({ name: 'hello'}, el, 'name')
   setTimeout(function() {
-    selfVue.data.name = '123'
+    selfVue.name = '123'
   }, 2000)
 </script>
 </html>
