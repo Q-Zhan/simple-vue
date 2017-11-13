@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <h1 id="name">{{name}}</h1>
+</body>
+<script src="./js/observer.js"></script>
+<script src="./js/watcher.js"></script>
+<script src="./js/simpleVue.js"></script>
+<script>
+  var el = document.querySelector('#name')
+  var selfVue = new SimpleVue({ name: 'hello'}, el, 'name')
+  setTimeout(function() {
+    selfVue.data.name = '123'
+  }, 2000)
+</script>
+</html>
