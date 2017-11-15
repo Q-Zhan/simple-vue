@@ -1,14 +1,12 @@
-function SimpleVue (data, el, exp) {
+function SimpleVue (options) {
   var self = this
-  this.data = data
-  Object.keys(data).forEach(function(key) {
+  this.vm = this
+  this.data = options.data
+  Object.keys(this.data).forEach(function(key) {
     self.proxyKeys(key)
   })
-  observe(data)
-  el.innerHTML = this.data[exp]
-  new Watcher(this, exp, function(value) {
-    el.innerHTML = value
-  })
+  observe(this.data)
+  new Compile(options.el, this.vm)
   return this
 }
 

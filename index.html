@@ -5,16 +5,26 @@
   <title></title>
 </head>
 <body>
-  <h1 id="name">{{name}}</h1>
+  <div id="app">
+    <div>{{title}}</div>
+    <div>{{name}}</div>
+  </div>
 </body>
 <script src="./js/observer.js"></script>
 <script src="./js/watcher.js"></script>
+<script src="./js/compile.js"></script>
 <script src="./js/simpleVue.js"></script>
 <script>
-  var el = document.querySelector('#name')
-  var selfVue = new SimpleVue({ name: 'hello'}, el, 'name')
+  var selfVue = new SimpleVue({
+    el: '#app',
+    data: {
+      title: 'hello world',
+      name: '11'
+    }
+  })
   setTimeout(function() {
     selfVue.name = '123'
+    selfVue.title = 'yes'
   }, 2000)
 </script>
 </html>
