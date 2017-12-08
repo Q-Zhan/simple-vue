@@ -25,18 +25,33 @@ Compile.prototype = {
     return fragment
   },
   compileElement: function(el) {
-    var childNodes = el.childNodes
+    var childNodes = el.childNodes;
     var self = this;
+
     [].slice.call(childNodes).forEach(function(node) {
       var reg = /\{\{(.*)\}\}/
       var text = node.textContent
-      if (self.isTextNode(node) && reg.test(text)) {
+      if (self.isElementNode(node)) {
+        self.compile(node);
+      } else if (self.isTextNode(node) && reg.test(text)) {
         self.compileText(node, reg.exec(text)[1])
       }
       if (node.childNodes && node.childNodes.length) {
         self.compileElement(node)  // 递归遍历子节点
       }
     });
+  },
+  compile: function(node) {
+    var nodeAttrs = node.attributes;
+    var self = this;
+    Array.prototype.forEach.call(nodeAttrs, function(attr) {
+      var attrName = attr.name;
+      if (self.isEvenDirective(attrName)) {  // 属性名以v-on:开头
+        var exp = attr.value;
+        self.compileEvent(node, self.vm, exp, attrName);
+        node.removeAttribute(attrName);  // ?
+      }
+    })
   },
   compileText: function(node, exp) {
     var self = this
@@ -46,8 +61,22 @@ Compile.prototype = {
       self.updateText(node, value)
     })
   },
+  compileEvent: function(node, vm, exp, attrName) {
+    var eventType = attrName.split(':')[1];
+    var cb = vm.methods && vm.methods[exp];
+
+    if (eventType && cb) {
+      node.addEventListener(eventType, cb.bind(vm), false);
+    }
+  },
   isTextNode: function(node) {
     return node.nodeType == 3
+  },
+  isElementNode: function(node) {
+    return node.nodeType == 1
+  },
+  isEvenDirective: function(attrName) {
+    return attrName.indexOf('v-on:') === 0;
   },
   updateText: function(node, value) {
     node.textContent = (typeof value =='undefined' ? '' : value)

@@ -7,7 +7,7 @@
 <body>
   <div id="app">
     <div>{{title}}</div>
-    <div>{{name}}</div>
+    <div v-on:click="clickName">{{name}}</div>
   </div>
 </body>
 <script src="./js/observer.js"></script>
@@ -20,6 +20,11 @@
     data: {
       title: 'hello world',
       name: '11'
+    },
+    methods: {
+      clickName: function() {
+        alert('you click a name!');
+      }
     }
   })
   setTimeout(function() {
