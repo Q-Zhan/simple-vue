@@ -8,6 +8,7 @@ function SimpleVue (options) {
   })
   observe(this.data)
   new Compile(options.el, this.vm)
+  options.mounted.call(this);
   return this
 }
 

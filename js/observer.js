@@ -15,7 +15,6 @@ function defineReactive(data, key, val) {
         return;
       }
       val = newVal;
-      console.log('属性' + key + '已被监听')
       dep.notify()
     }
   })

@@ -25,11 +25,15 @@
       clickName: function() {
         alert('you click a name!');
       }
+    },
+    mounted: function() {
+      var self = this
+      setTimeout(function() {
+        self.name = '123'
+        self.title = 'yes'
+      }, 2000)
     }
   })
-  setTimeout(function() {
-    selfVue.name = '123'
-    selfVue.title = 'yes'
-  }, 2000)
+  
 </script>
 </html>
